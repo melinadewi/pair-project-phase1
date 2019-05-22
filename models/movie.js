@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Movie.associate = function(models) {
     // associations can be defined here
+    Movie.belongsToMany(models.User, { 
+      through: models.UserMovie, 
+      foreignKey: 'MovieId'
+    })
   };
   return Movie;
 };
