@@ -8,11 +8,13 @@ class AccountController{
     }
 
     static postRegister(req, res){
+        console.log(req.body)
         User.create({
             name: req.body.name,
             username: req.body.username,
             email: req.body.email,
             password: req.body.password,
+            gender: req.body.gender,
             createdAt: new Date(),
             updatedAt: new Date()
         })

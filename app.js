@@ -25,19 +25,11 @@ app.use(session({
 }))
 
 
+app.use(express.static('public'))
 
 app.set("view engine", "ejs")
 app.use(express.urlencoded({ extended: true }));
-app.use((req, res, next) => {
-    if(req.session.user) {
-        next()
-    } else {
-        res.render("./pages/register.ejs", {
-            error:'you must login first'
-        })
-    }
-})
-app.use(express.static('public'))
+
 // buat halaman home
 app.get('/', (req, res) => res.render('./pages/home.ejs'))
 
@@ -51,6 +43,15 @@ app.use('/account', accountRouter)
 // app.get('/login')
 // app.post()
 
+app.use((req, res, next) => {
+    if(req.session.user) {
+        next()
+    } else {
+        console.log("Masuk middleware")
+        res.locals.error = 'Harus Login dulu'
+        res.redirect("/account/login")
+    }
+})
 
 // movie
 app.use('/movies', movieRouter)
