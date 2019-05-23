@@ -58,7 +58,10 @@ class AccountController{
             })
     }
 
-    
+    static postLogout(req, res){
+        req.session.destroy();
+        res.redirect("/account/login")
+    }
 
     static getEdit(req, res){
         res.render("edit.ejs", {

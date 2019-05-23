@@ -28,7 +28,15 @@ app.use(session({
 
 app.set("view engine", "ejs")
 app.use(express.urlencoded({ extended: true }));
-
+app.use((req, res, next) => {
+    if(req.session.user) {
+        next()
+    } else {
+        res.render("./pages/register.ejs", {
+            error:'you must login first'
+        })
+    }
+})
 app.use(express.static('public'))
 // buat halaman home
 app.get('/', (req, res) => res.render('./pages/home.ejs'))
