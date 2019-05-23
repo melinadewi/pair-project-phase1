@@ -4,10 +4,9 @@ const AccountController = require('../controllers/accountController.js')
 
 router.get('/login', AccountController.getRegister)
 router.post('/register', AccountController.postRegister)
-// router.get('/login', AccountController.getLogin)
 router.post('/login', AccountController.postLogin)
-// router.get('/edit-profile', AccountController.getEdit)
-// router.post('/edit-profile', AccountController.postEdit)
+router.get('/edit-profile/:id', AccountController.getEdit)
+router.post('/edit-profile/:id', AccountController.postEdit)
 router.get('/delete/:id', AccountController.deleteAccount)
 
 module.exports = router

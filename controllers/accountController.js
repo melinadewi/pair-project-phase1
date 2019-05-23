@@ -61,18 +61,28 @@ class AccountController{
     }
 
     static getEdit(req, res){
-        res.render("edit.ejs", {
-            id: req.params.id
+        User.findOne({
+            raw:true,
+            where:{
+                id: req.params.id
+            }
         })
+            .then(data => {
+                res.render("profile.ejs", {
+                    data: data
+                })
+            })
     }
 
     static postEdit(req, res){
         User.findByPk(req.params.id)
             .then((user) => {
                 user.username = req.body.username
-                // user.email = req.body.email
-                let salt = bcrypt.genSaltSync(10);
-                user.password = bcrypt.hashSync(req.body.password, salt)
+                user.email = req.body.email
+                if(req.body.password !== ""){
+                    let salt = bcrypt.genSaltSync(10);
+                    user.password = bcrypt.hashSync(req.body.password, salt)
+                }
                 user.updatedAt = new Date()
                 return user.save()
             })
@@ -91,7 +101,7 @@ class AccountController{
             }
         })
             .then(()=>{
-                res.redirect('/home')
+                User.postLogout(req, res)
             })
             .catch(err => {
                 res.send(err)
