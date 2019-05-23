@@ -40,17 +40,15 @@ class MovieController{
 
     static postRating(req, res){
         Models.UserMovie.create({
-            UserId: req.body.name,  // ambil UserId
-            MovieId: req.params.id, // ambil MovieId
+            UserId: req.session.user.id,
+            MovieId: req.params.id,
             comment: req.body.comment,
             rating: req.body.rating,
             createdAt: new Date(),
             updatedAt: new Date()
         })
             .then(() => {
-                res.redirect("/movies", {
-                    message: "Your review has been submitted"
-                })
+                res.redirect("/movies/" + req.params.id)
             })
             .catch(err => {
                 res.send(err)

@@ -1,5 +1,6 @@
 const Models = require('../models/index')
 const User = Models.User
+const bcrypt = require('bcryptjs');
 
 class AccountController{
     static getRegister(req, res){
@@ -16,7 +17,8 @@ class AccountController{
             updatedAt: new Date()
         })
             .then(() => {
-                res.redirect("/welcome-page")
+                console.log("New User created")
+                res.send("User Createed")
             })
             .catch(err => {
                 res.send(err)
@@ -30,45 +32,33 @@ class AccountController{
     static postLogin(req, res){
         User.findOne({
             where: {
-                email: req.body.email
+                username: req.body.username
             }
         })
-            .then((user) => { // ini perlu cek email & pass
-                res.redirect("/movies")
+            .then((user) => {
+                if(user){
+                    let valid = bcrypt.compareSync(req.body.password, user.password)
+                    if(valid) {
+                        req.session.user= {
+                            id: user.id,
+                            name: user.name
+                        }
+                    } else {
+                        throw new Error ("Invalid password")
+                    }
+                    res.redirect("/movies")
+                } else {
+                    throw new Error ("Username not found")
+                }
             })
             .catch(err => {
-                res.send(err)
+                res.render("./pages/register.ejs",{
+                    error: err
+                })
             })
     }
 
-    /*
-    outer.post('/login', (req, res) => {
-  // disini ada proses pencarian di database apakah login valid atau tidak
-	let valid = compare password sama passwordnya yg udah di hash db
-  // jika login valid maka kita bisa membuat session user yang sedang login 
-  // seperti dibawah
-  if(valid) {
-    req.session.user = {
-      id : 1,
-      name: 'hary'
-    }
-    res.redirect('/userpage/' + username)
-  } else {
-    // menampilkan pesan login gagal
-    res.redirect('/home')
-  }
-})
-
-
-router.post('/comment', (req, res) => {
-	//disini kalian bisa masukin id user dari req.session
-	Comment.create({
-		content: req.body.content,
-		UserId: req.session.user.id
-	})
-})
-
-*/
+    
 
     static getEdit(req, res){
         res.render("edit.ejs", {
@@ -83,9 +73,10 @@ router.post('/comment', (req, res) => {
                 // user.name = req.body.name
                 // user.username = req.body.username
                 // user.email = req.body.email
-                user.password = req.body.password
+                let salt = bcrypt.genSaltSync(10);
+                user.password = bcrypt.hashSync(req.body.password, salt)
                 user.updatedAt = new Date()
-                return user.save() // ini instance method
+                return user.save()
             })
             .then(() => {
                 res.redirect("/movies")

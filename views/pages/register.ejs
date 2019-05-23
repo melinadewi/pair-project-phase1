@@ -13,13 +13,12 @@
         <meta name="keywords" content="html5, css3, form, switch, animation, :target, pseudo-class" />
         <meta name="author" content="Codrops" />
         <link rel="shortcut icon" href="../favicon.ico"> 
-        <link rel="stylesheet" type="text/css" href="/css/demo.css" />
-        <link rel="stylesheet" type="text/css" href="/css/style3.css" />
-        <link rel="stylesheet" type="text/css" href="/css/animate-custom.css" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <%- include("../partials/navbar.ejs") %>
+        <link rel="stylesheet" type="text/css" href="css/demo.css" />
+        <link rel="stylesheet" type="text/css" href="css/style3.css" />
+		<link rel="stylesheet" type="text/css" href="css/animate-custom.css" />
     </head>
     <body>
+            <%- include("../partials/navbar.ejs") %>
         <div class="container">
             <!-- Codrops top bar -->
             <header>
@@ -31,7 +30,7 @@
                     <a class="hiddenanchor" id="tologin"></a>
                     <div id="wrapper">
                         <div id="login" class="animate form">
-                            <form  action="/account/login" autocomplete="on" method="POST"> 
+                            <form  action="mysuperscript.php" autocomplete="on"> 
                                 <h1>Log in</h1> 
                                 <p> 
                                     <label for="username" class="uname" data-icon="u" > Your email or username </label>
@@ -56,7 +55,7 @@
                         </div>
 
                         <div id="register" class="animate form">
-                            <form  action="/account/register" autocomplete="on" method="POST"> 
+                            <form  action="mysuperscript.php" autocomplete="on"> 
                                 <h1> Sign up </h1> 
                                 <p> 
                                     <label for="usernamesignup" class="uname" data-icon="u">Your username</label>
