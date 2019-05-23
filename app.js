@@ -1,53 +1,33 @@
 const express = require('express')
 const app = express()
 const port = 3000
-
 const accountRouter = require('./routers/accountRouter')
 const movieRouter = require('./routers/movieRouter')
-
-// many to many V
-// helpers
-// encrypt --> di dalam hooks
-// CRUD --> users, readnya movies
-// instance dan class method
-// middleware 
-// session 
-// hooks
-// MVP 
-// Deploy 
-
+const convertDate = require('./helpers/dateFormatter')
 const session = require('express-session')
-
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true
 }))
-
-
 app.use(express.static('public'))
-
 app.set("view engine", "ejs")
 app.use(express.urlencoded({ extended: true }));
 
-// buat halaman home
-app.get('/', (req, res) => res.render('./pages/home.ejs'))
+app.use((req, res, next) => {
+    res.locals.convertDate = convertDate
+    next()
+})
 
+// MVP 
+// Deploy 
 
 // account
 app.use('/account', accountRouter)
-// // halaman register --> hooks beforeCreate, encrypt
-// app.get('/register')
-// app.post()
-// // halaman login
-// app.get('/login')
-// app.post()
-
 app.use((req, res, next) => {
     if(req.session.user) {
         next()
     } else {
-        console.log("Masuk middleware")
         res.locals.error = 'Harus Login dulu'
         res.redirect("/account/login")
     }

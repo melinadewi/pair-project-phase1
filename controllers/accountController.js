@@ -8,7 +8,6 @@ class AccountController{
     }
 
     static postRegister(req, res){
-        console.log(req.body)
         User.create({
             name: req.body.name,
             username: req.body.username,
@@ -26,10 +25,6 @@ class AccountController{
                 res.send(err)
             })
     }
-
-    // static getLogin(req, res){
-    //     res.render("login.ejs")
-    // }
 
     static postLogin(req, res){
         User.findOne({
@@ -74,9 +69,7 @@ class AccountController{
     static postEdit(req, res){
         User.findByPk(req.params.id)
             .then((user) => {
-                // mau ganti password aja?
-                // user.name = req.body.name
-                // user.username = req.body.username
+                user.username = req.body.username
                 // user.email = req.body.email
                 let salt = bcrypt.genSaltSync(10);
                 user.password = bcrypt.hashSync(req.body.password, salt)
