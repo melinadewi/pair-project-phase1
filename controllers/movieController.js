@@ -30,7 +30,7 @@ class MovieController{
         Movie.findByPk(req.params.id)
             .then((data) => {
                 res.render("rating.ejs", {
-                    data: data  // ini passing data movie nya, perlu pass data usernya juga
+                    data: data
                 })
             })
             .catch(err => {
@@ -44,6 +44,7 @@ class MovieController{
             MovieId: req.params.id,
             comment: req.body.comment,
             rating: req.body.rating,
+            commentId: req.params.commentId,
             createdAt: new Date(),
             updatedAt: new Date()
         })

@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = process.env.PORT|| 3000
 const accountRouter = require('./routers/accountRouter')
 const movieRouter = require('./routers/movieRouter')
 const convertDate = require('./helpers/dateFormatter')
@@ -16,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
     res.locals.convertDate = convertDate
+    res.locals.error = null
     next()
 })
 
@@ -39,8 +40,6 @@ app.use('/movies', movieRouter)
 // app.get('/movies')
 // // halaman kalau mau lihat review movies, id nya id movies
 // app.get('/movies/:id')  // di sini ada komentar2 orang dan penilaiannya, juga tombol untuk ke halaman give-ratingnya
-//     // chartjs nya juga kalau sudah bisa
-
 // // halaman kalau mau reviews movies, id nya id movies | isinya cuma judul / gambar movie yang mau diniilai sama form judul movie yang mau dinilai
 // app.get('/movies/:id/give-rating')
 // app.post()
