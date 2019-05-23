@@ -10,19 +10,28 @@ const movieRouter = require('./routers/movieRouter')
 // encrypt --> di dalam hooks
 // CRUD --> users, readnya movies
 // instance dan class method
-// middleware *
-// session *
+// middleware 
+// session 
 // hooks
-// MVP *
-// Deploy *
+// MVP 
+// Deploy 
 
-// * besok
+const session = require('express-session')
+
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
+}))
+
+
 
 app.set("view engine", "ejs")
 app.use(express.urlencoded({ extended: true }));
 
+app.use(express.static('public'))
 // buat halaman home
-app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/', (req, res) => res.render('./pages/home.ejs'))
 
 
 // account

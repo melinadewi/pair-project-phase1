@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const MovieController = require('../controllers/MovieController.js')
+const MovieController = require('../controllers/movieController.js')
 
 router.get('/', MovieController.getList)
 router.get('/:id', MovieController.getMovieDetail)

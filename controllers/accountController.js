@@ -3,7 +3,7 @@ const User = Models.User
 
 class AccountController{
     static getRegister(req, res){
-        res.render("register.ejs")
+        res.render("./pages/register.ejs")
     }
 
     static postRegister(req, res){
@@ -23,9 +23,9 @@ class AccountController{
             })
     }
 
-    static getLogin(req, res){
-        res.render("login.ejs")
-    }
+    // static getLogin(req, res){
+    //     res.render("login.ejs")
+    // }
 
     static postLogin(req, res){
         User.findOne({
@@ -40,6 +40,35 @@ class AccountController{
                 res.send(err)
             })
     }
+
+    /*
+    outer.post('/login', (req, res) => {
+  // disini ada proses pencarian di database apakah login valid atau tidak
+	let valid = compare password sama passwordnya yg udah di hash db
+  // jika login valid maka kita bisa membuat session user yang sedang login 
+  // seperti dibawah
+  if(valid) {
+    req.session.user = {
+      id : 1,
+      name: 'hary'
+    }
+    res.redirect('/userpage/' + username)
+  } else {
+    // menampilkan pesan login gagal
+    res.redirect('/home')
+  }
+})
+
+
+router.post('/comment', (req, res) => {
+	//disini kalian bisa masukin id user dari req.session
+	Comment.create({
+		content: req.body.content,
+		UserId: req.session.user.id
+	})
+})
+
+*/
 
     static getEdit(req, res){
         res.render("edit.ejs", {
