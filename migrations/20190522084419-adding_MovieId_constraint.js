@@ -15,6 +15,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return removeConstraint('UserMovies', 'MovieId_constraint', {})
+    return queryInterface.removeConstraint('UserMovies', 'MovieId_constraint', {})
   }
 };

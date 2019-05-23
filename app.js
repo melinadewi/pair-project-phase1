@@ -48,7 +48,7 @@ app.use('/movies', movieRouter)
 // app.post()
 
 
-// Beri navigation bar
+// Beri navigation bar => partial
 // di sebelah kanan atas ada nama user, lalu ada dropdown untuk ke halaman profile
 // halaman ini untuk edit profile langsung
 // bentuknya form, harus ada tombol untuk update
