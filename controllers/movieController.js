@@ -5,7 +5,7 @@ class MovieController{
     static getList(req, res){
         Movie.findAll({raw:true})
             .then((data) => {
-                res.render("movie.ejs", {
+                res.render("./pages/movie-list.ejs", {
                     movies: data
                 })
             })
@@ -16,27 +16,24 @@ class MovieController{
 
     static getMovieDetail(req, res){
         let oriComment = []
-        let replyComment = []                
+        let replyComment = []       
         Models.UserMovie.findAll({
             where: {
                 MovieId: req.params.id
-            },
-            include: {
-                model: Models.User
             }
         })
-            .then((comment)=>{
+            .then((comment)=>{ 
                 for(let i = 0; i < comment.length; i++){
-                    if(comment[i].id === comment[i].commentId){
-                        oriComment.push(comment[i])
+                    if(0 === comment[i].commentId){
+                        oriComment.push(comment[i].dataValues)
                     } else {
-                        replyComment.push(comment[i])
+                        replyComment.push(comment[i].dataValues)
                     }
                 }
                 return Movie.findByPk(req.params.id)                
             })
             .then((data) => {
-                res.render("detail.ejs", {
+                res.render("./pages/movie-detail.ejs", {
                     data: data,
                     oriComment: oriComment,
                     replyComment: replyComment
@@ -51,7 +48,7 @@ class MovieController{
     static getRating(req, res){
         Movie.findByPk(req.params.id)
             .then((data) => {
-                res.render("rating.ejs", {
+                res.render("./pages/rating-page.ejs", {
                     movie: data
                 })
             })
@@ -66,7 +63,7 @@ class MovieController{
             MovieId: req.params.id,
             comment: req.body.comment,
             rating: req.body.rating,
-            commentId: req.params.commentId,
+            commentId: 0,
             createdAt: new Date(),
             updatedAt: new Date()
         })
@@ -81,7 +78,7 @@ class MovieController{
     static getReply(req, res){
         Models.UserMovie.findByPk(req.params.commentId)
             .then((data) => {
-                res.render("reply.ejs", {
+                res.render("./pages/reply.ejs", {
                     comment: data
                 })
             })

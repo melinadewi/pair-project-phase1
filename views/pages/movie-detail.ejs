@@ -23,34 +23,39 @@
                             <h5 class="p-2">Actors: <%= data.actor %></h5>
                             <h5 class="p-2">Synopsis:</h5>
                             <p class="p-2"><%= data.synopsis %></p>
-                            <a href="/movies/<%= movies[i].id %>/give-rating" class="btn btn-primary">Rate this movie</a>
+                            <a href="/movies/<%= data.id %>/give-rating" class="btn btn-primary">Rate this movie</a>
                         </div>
                 </div>
         </div>
         <div>
             <p>Comments: </p>
             <% if(oriComment.length !== 0){
+                let arr = []
                 for (let i=0; i < oriComment.length; i++) { %>
-                    <p><%= oriComment[i].User.username %></p>
-                    <p><%= oriComment[i].comment %></p>
-                    <% let loop = true
-                        let id = oriComment[i].id
-                        let arr = [oriComment[i].id]
+                    <br><br><p>Rating: <%= oriComment[i].rating %> of 10<br><%= oriComment[i].comment %></p>
+                    <a href="/movies/<%= oriComment[i].id %>/reply-comment">Reply</a><br>
+                    <% let id = oriComment[i].id
+                        arr.push(id)
+                        let loop = true
                         while(loop){
                             loop = false
                             for(let j = 0; j < replyComment.length; j++) {
-                                if(replyComment[j].commentId === id){
-                                    loop = true  %>
-                                    <p>Reply to <%= oriComment[i].User.username %></p>
-                                    <p><%= replyComment[j].User.username %></p>
-                                    <p><%= replyComment[j].comment %></p>
-                                    <% id = replyComment[j].id
-                                    arr.push(id)
+                                if(replyComment[j].commentId === id){ %>
+                                    <p>   <%= replyComment[j].comment %></p>
+                                    <a href="/movies/<%= replyComment[j].id %>/reply-comment">Reply</a>
+                                    <% arr.push(id)
+                                    id = replyComment[j].id
+                                    replyComment.splice(j,1)
+                                    j--
+                                    loop = true                       
                                 }
+                            }
+                            if(arr.length > 1){
+                                arr.pop()
+                                id = arr[arr.length-1]
                             }
                         }
                 }
-              
             }
             %>
         </div>

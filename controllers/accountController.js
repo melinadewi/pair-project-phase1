@@ -18,8 +18,7 @@ class AccountController{
             updatedAt: new Date()
         })
             .then(() => {
-                console.log("New User created")
-                res.send("User Createed")
+                res.redirect("/account/login")
             })
             .catch(err => {
                 res.send(err)
@@ -55,7 +54,7 @@ class AccountController{
             })
     }
 
-    static postLogout(req, res){
+    static getLogout(req, res){
         req.session.destroy();
         res.redirect("/account/login")
     }
@@ -64,29 +63,34 @@ class AccountController{
         User.findOne({
             raw:true,
             where:{
-                id: req.params.id
+                id: req.session.user.id
             }
         })
             .then(data => {
-                res.render("profile.ejs", {
+                res.render("./pages/profile.ejs", {
                     data: data
                 })
             })
     }
 
     static postEdit(req, res){
-        User.findByPk(req.params.id)
+        console.log("MASUK POST EDIT")
+        User.findByPk(req.session.user.id)
             .then((user) => {
+                console.log(req.body)
                 user.username = req.body.username
                 user.email = req.body.email
                 if(req.body.password !== ""){
                     let salt = bcrypt.genSaltSync(10);
                     user.password = bcrypt.hashSync(req.body.password, salt)
                 }
+                console.log("MAU KE UPDATE");
+                
                 user.updatedAt = new Date()
                 return user.save()
             })
             .then(() => {
+                console.log("Masuk KE REDIRECT")
                 res.redirect("/movies")
             })
             .catch(err => {
@@ -97,7 +101,7 @@ class AccountController{
     static deleteAccount(req, res){
         User.destroy({
             where: {
-                id: req.params.id
+                id: req.session.user.id
             }
         })
             .then(()=>{
