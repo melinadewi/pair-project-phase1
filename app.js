@@ -31,8 +31,13 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static('public'))
 // buat halaman home
+<<<<<<< HEAD
 app.get('/', (req, res) => res.render('./pages/home.ejs'))
 
+=======
+app.get('/', (req, res) => res.send('Hello World!'))
+// app.use(express.static('views'))
+>>>>>>> ubah register
 
 // account
 app.use('/account', accountRouter)
