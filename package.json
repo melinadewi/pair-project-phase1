@@ -1,7 +1,6 @@
 {
   "name": "pair-project-phase1",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,9 +16,12 @@
   },
   "homepage": "https://github.com/melinadewi/pair-project-phase1#readme",
   "dependencies": {
+    "ejs": "^2.6.1",
     "express": "^4.17.0",
     "express-session": "^1.16.1",
     "pg": "^7.11.0",
     "sequelize": "^5.8.6"
-  }
+  },
+  "keywords": [],
+  "description": ""
 }
